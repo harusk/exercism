@@ -1,0 +1,24 @@
+class SimpleCalculator
+  class UnsupportedOperation < StandardError; end
+
+  ALLOWED_OPERATIONS = ['+', '/', '*'].freeze
+
+  def self.calculate(first_operand, second_operand, operation)
+    begin
+      raise ArgumentError unless first_operand.is_a?(Integer) && second_operand.is_a?(Integer)
+      raise UnsupportedOperation unless ALLOWED_OPERATIONS.include? operation
+      raise ZeroDivisionError unless second_operand != 0
+      result = case
+        when operation == '+'
+          first_operand + second_operand
+        when operation == '/'
+          first_operand / second_operand
+        else
+          result = first_operand * second_operand
+      end
+      "#{first_operand} #{operation} #{second_operand} = #{result}"
+    rescue ZeroDivisionError
+      "Division by zero is not allowed."
+    end
+  end
+end
